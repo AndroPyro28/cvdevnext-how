@@ -112,7 +112,7 @@ export default function CreateTransaction() {
 
     try {
         // Submit the transaction
-        const transactionResponse = await fetch(`/api/transactions/${propId}`, {
+        const transactionResponse = await fetch(`/api/home-owner/transactions/${propId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -154,7 +154,7 @@ const handleWalletUpdate = async (walletData) => {
     try {
         console.log('Sending wallet update request with data:', walletData); // Debugging
 
-        const response = await fetch(`/api/wallet`, {
+        const response = await fetch(`/api/home-owner/wallet`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -187,7 +187,7 @@ useEffect(() => {
         console.log('Fetching property with propId:', propId); // Debugging
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`/api/properties/${propId}`, {
+            const response = await fetch(`/api/home-owner/properties/${propId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ useEffect(() => {
     const fetchUserData = async (userId) => {
         try {
             const authToken = localStorage.getItem("authToken");
-            const response = await fetch(`/api/header/${userId}`, {
+            const response = await fetch(`/api/home-owner/header/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
@@ -500,6 +500,15 @@ useEffect(() => {
         setSummary(transactionDetails);
         setModalOpen(true);
     };
+
+    
+    const handleLogout = () => {
+        // Clear user session data
+        // Redirect to login page
+        signOut()
+        router.push('/');
+    };
+    
 
     return (
         <div className={styles.createtrans_container}>

@@ -15,14 +15,6 @@ export default function ViewProperty() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Authentication check
-    useEffect(() => {
-        const authToken = localStorage.getItem("authToken");
-        if (!authToken) {
-            router.push("/"); // Redirect to login if not authenticated
-        }
-    }, [router]);
-
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
     // Utility function to convert Decimal128 to float
@@ -34,7 +26,7 @@ export default function ViewProperty() {
         const fetchPropertyDetails = async () => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`/api/properties/${propId}`, {
+                const response = await fetch(`/api/home-owner/properties/${propId}`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${authToken}`,
@@ -70,7 +62,7 @@ export default function ViewProperty() {
         const fetchUserData = async (userId) => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`/api/header/${userId}`, {
+                const response = await fetch(`/api/home-owner/header/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                     },

@@ -6,6 +6,7 @@ import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import Sidebar from "../../../../../../components/sidebar";
 import { useParams } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 export default function Statements({ params }) {
     const [statements, setStatements] = useState([]);
@@ -16,7 +17,7 @@ export default function Statements({ params }) {
     const [userData, setUserData] = useState(null);
     const userId = useParams();
     
-
+    const router = useRouter()
     useEffect(() => {
         const fetchStatements = async () => {
             try {
@@ -25,7 +26,7 @@ export default function Statements({ params }) {
                     throw new Error('No auth token found. Please login.');
                 }
 
-                const response = await fetch(`/api/statements`, {
+                const response = await fetch(`/api/home-owner/statements`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                         'Content-Type': 'application/json',
@@ -55,10 +56,14 @@ export default function Statements({ params }) {
             }
         }
 
+        
+  
+    
+
         const fetchUserData = async (userId) => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`/api/header/${userId}`, {
+                const response = await fetch(`/api/home-owner/header/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                     },
@@ -89,6 +94,12 @@ export default function Statements({ params }) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
+
+    const handleLogout = () => {
+        signOut()
+        router.push("/")
+    };
+
 
     if (loading) return <p className={styles.loading}>Loading...</p>;
     if (error) return <p className={styles.error}>{error}</p>;

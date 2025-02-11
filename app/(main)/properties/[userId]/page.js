@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import Sidebar from '../../../components/sidebar.js';
 import axios from 'axios';
+import { signOut } from 'next-auth/react';
 
 export default function Properties({ params }) {
     const [properties, setProperties] = useState([]);

@@ -27,7 +27,6 @@ export const authOptions = {
       async authorize(credentials) {
         const apiUrl = getApiUrl();
 
-        console.log("hello world", `${apiUrl}/api/auth/login`)
         const response = await fetch(`${apiUrl}/api/auth/login`, {
           method: 'POST',
           body: JSON.stringify(credentials),
@@ -39,6 +38,12 @@ export const authOptions = {
         if (response.ok && user) {
           // Check if the user role is 'admin'
           // Assign user.id (ObjectId as string)
+
+          if (user.usr_role !== 'homeowner') {
+            throw new Error("User is not an homeowner");
+          }
+          // Assign user.id (ObjectId as string)
+
           if (user._id) {
             user.id = user._id.toString();
           }

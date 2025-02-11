@@ -28,7 +28,7 @@ export default function ReportPage({ params }) {
         const fetchUserData = async () => {
             const authToken = localStorage.getItem('authToken');
             try {
-                const response = await fetch(`/api/header/${userId}`, {
+                const response = await fetch(`/api/home-owner/header/${userId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${authToken}`,
@@ -94,7 +94,7 @@ export default function ReportPage({ params }) {
                 uploadedImageURL = await uploadImage(proofOfDeposit);
             }
 
-            const response = await fetch('/api/report', {
+            const response = await fetch('/api/home-owner/report', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
