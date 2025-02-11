@@ -1,0 +1,383 @@
+.transaction_container {
+    width: 100vw;
+    height: 100vh;
+    margin-top: -10px;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+}
+
+.main_content {
+    margin-left: 200px;
+    padding: 30px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #EDF2F4;
+}
+
+
+/*---------- Header Section----------*/
+.transaction_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.transaction_header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+.profile_pic:hover, .profile_name:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);}
+
+.profile {
+    border-radius: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile_pic {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile_name {
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #333;
+    background-color: #F5F5F4;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+
+/*----------Dropdown Menu----------*/
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.dropdownMenu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdownMenu li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdownMenu li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/*----------Table Section----------*/
+.nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.nav li {
+    font-size: 18px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.active {
+    color: #0a66f0;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.transaction_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto;
+}
+.transaction_table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.transaction_table th,
+.transaction_table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    width: 25%;
+}
+
+.transaction_table th {
+    background-color: #eef2ff;
+    font-size: 16px;
+    color: #333;
+}
+
+.transaction_table td {
+    background-color: #fff;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.fully_paid {
+    background-color: #00D12E;
+}
+
+.advanced_payment {
+    background-color: #00D12E;
+}
+
+.partially_paid {
+    background-color: #FFC145;
+}
+
+.partially_payment {
+    background-color: #FFC145;
+}
+
+.pending {
+    background-color: #FFC145;
+}
+
+.overdue {
+    background-color: #D10000;
+}
+
+.view_button {
+    background-color: #2B2D42;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+.view_button:hover {
+    background-color: #1a1a1a;
+}
+
+
+/*----------Modal Styles----------*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+}
+
+.modal_content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal_content h2 {
+    margin-bottom: 20px;
+}
+
+.modal_content p {
+    margin: 10px;
+}
+
+.modal_ .transaction_details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.col {
+    display: flex;
+    justify-content: space-between;
+    min-width: 200px;
+    margin: 10px 0;
+    padding: 10px;
+    overflow-x: auto;
+
+}
+
+.row strong {
+    flex: 1;
+    text-align: left;
+}
+
+.row span {
+    flex: 2;
+    text-align: right;
+}
+
+.close_button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+
+/*----------MEDIA QUERIES----------*/
+@media (max-width: 875px) {
+    .transaction_container {
+        width: 100%;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    .main_content {
+        margin-right: 10px;
+        padding: 30px;
+        overflow-x: auto;
+    }
+
+    .transaction_table {
+        width: 100%;
+        table-layout: auto;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .transaction_table th,
+    .transaction_table td {
+        font-size: 12px;
+        padding: 10px;
+        word-wrap: break-word;
+    }
+
+    .transaction_table th {
+        white-space: nowrap;
+    }
+
+    .view_button {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    .transaction_header {
+        padding: 10px;
+        flex-wrap: wrap;
+    }
+
+    .transaction_header h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .profile_name {
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+
+    .modal_content {
+        width: 90vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .main_content {
+        margin-left: 0;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .transaction_header h2 {
+        font-size: 26px;
+    }
+
+    .profile_name {
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+
+    .transaction_table th,
+    .transaction_table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .view_button {
+        padding: 6px 14px;
+        font-size: 11px;
+    }
+
+    .modal_content {
+        width: 90vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .transaction_container {
+        width: 100vw; 
+        padding: 0 ;
+        margin: 0; 
+    }
+
+    .main_content {
+        margin-left: 0;
+        padding: 8px;
+        overflow-y: auto;
+    }
+
+    .transaction_header h2 {
+        font-size: 1.4rem;
+    }
+
+    .profile_name {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .transaction_table th,
+    .transaction_table td {
+        padding: 6px;
+        font-size: 11px;
+    }
+
+    .view_button {
+        padding: 5px 12px;
+        font-size: 10px;
+    }
+
+    .modal_content {
+        width: 95vw;
+    }
+}

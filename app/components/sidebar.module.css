@@ -1,0 +1,138 @@
+.sidebar {
+    width: 210px;
+    background-color: #DFE9FA;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #d1d5db;
+    height: 100vh;
+    margin: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.toggle_button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1001;
+    background-color: #DFE9FA;
+    color: black;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: none;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav ul li {
+    margin-bottom: 30px;
+    border: 2px solid #e0ecfc;
+    border-radius: 20px; 
+    padding: 5px 0px 5px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.nav ul li:hover {
+    border-color: #FFC145;
+    background-color: #fff7e6;
+  }
+
+.nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav ul li a svg {
+    width: 20px;
+    height: 20px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    color: #000000;
+    padding: 20px;
+    background-color: #DFE9FA;
+}
+
+.main_content {
+    padding: 0px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #EDF2F4;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .toggle_button {
+        display: block;
+    }
+
+    .main_content {
+        margin-left: 0;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 50vw;
+
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+
+    }
+
+    .sidebar.closed {
+        transform: translateX(-100%);
+
+    }
+
+    .toggle_button {
+        left: 10px;
+    }
+}

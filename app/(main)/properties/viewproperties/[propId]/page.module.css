@@ -1,0 +1,389 @@
+/*----------Main Container----------*/
+.properties_container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+}
+
+
+/*----------Main Content Area----------*/
+.main_content {
+    padding: 50px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #EDF2F4;
+}
+
+
+/*---------- Header Section----------*/
+.properties_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.properties_header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.profile_pic:hover, .profile_name:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);}
+
+.profile {
+    border-radius: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile_pic {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile_name {
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #333;
+    background-color: #F5F5F4;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+/*----------Dropdown Menu----------*/
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.dropdownMenu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdownMenu li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdownMenu li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/*----------Property Card----------*/
+.property_card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100vw;
+    max-width: 100%;
+    color: #333;
+    overflow: hidden;
+
+}
+
+.property_details {
+    padding: 10px;
+}
+
+
+/*----------Top Section----------*/
+.top_section {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Temporarily center all items */
+    position: relative; /* Allows absolute positioning of the back button */
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.back_button {
+    position: absolute;
+    left: 0; 
+    padding: 12px 18px;
+    font-size: 16px;
+    color: #2B2D42;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back_button:hover {
+    color: #1a1a1a;
+}
+
+.lot_label {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2D2D2D;
+    text-align: center;
+    margin: 0; /* Reset margin to prevent shifting */
+}
+
+
+
+/*----------Image Container----------*/
+.image_container {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 10px;
+    height: 450px;
+    width: 100%
+}
+
+.property_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
+/*----------Collectibles Section----------*/
+.collectibles_section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.collectibles_row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: #333;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.collectibles_row:last-child {
+    border-bottom: none;
+}
+
+.collectibles_row span {
+    display: block;
+}
+
+
+/*----------Buttons----------*/
+.button_group {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.button_primary {
+    background-color: transparent;
+    color: #2B2D42;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid #1F1F3A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button_primary:hover {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.button_secondary {
+    background-color: transparent;
+    color: #1F1F3A;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid #1F1F3A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button_secondary:hover {
+    background-color: #1F1F3A;
+    color: white;
+}
+
+
+
+/*----------Media Queries----------*/
+@media (max-width: 875px) {
+    .main_content {
+        padding: 20px; 
+        width: 100%; 
+        overflow-x: hidden; 
+        margin-top: 20px; 
+    }
+
+    .properties_header h2 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .profile_name{
+        font-size: 16px;
+    }
+
+    .top_section {
+        display: flex;
+        align-items: center; 
+        justify-content: center; 
+        position: relative; 
+        width: 100%;
+        margin-bottom: 15px; 
+    }
+
+    .back_button {
+        position: absolute;
+        left: 10px; 
+        top: 50%; 
+        transform: translateY(-50%);
+        padding: 10px 15px; 
+        font-size: 14px;
+    }
+
+    .lot_label {
+        font-size: 1.75rem; 
+        font-weight: bold;
+        color: #2D2D2D;
+        margin: 0;
+        text-align: center;
+    }
+
+    .button_primary,
+    .button_secondary {
+        padding: 10px 35px;
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .main_content {
+        padding: 20px; 
+        width: calc(100%); 
+        overflow-x: hidden; 
+        margin-top: 20px;
+    }
+
+    .properties_header h2 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .profile_name{
+        font-size: 16px;
+    }
+
+    .top_section {
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        position: relative; 
+        margin-bottom: 15px;
+        width: 100%; 
+    }
+
+    .back_button {
+        position: absolute;
+        left: 10px; 
+        top: 50%; 
+        transform: translateY(-50%);
+        padding: 10px 16px; 
+        font-size: 14px; 
+    }
+
+    .lot_label {
+        font-size: 1.8rem; 
+        text-align: center;
+    }
+
+    .button_primary,
+    .button_secondary {
+        padding: 5px 35px;
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .main_content {
+        margin-left: 0; 
+        padding: 10px; 
+        width: 100%; 
+        overflow-x: hidden; 
+    }
+
+    .properties_header h2 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .profile_name{
+        font-size: 16px;
+    }
+
+    .top_section {
+        display: flex;
+        align-items: center; 
+        justify-content: center; 
+        position: relative;
+        margin-bottom: 10px; 
+        width: 100%; 
+    }
+
+    .back_button {
+        position: absolute;
+        left: 5px; 
+        top: 50%; 
+        transform: translateY(-50%);
+        padding: 8px 12px; 
+        font-size: 12px; 
+    }
+
+    .lot_label {
+        font-size: 1.5rem; 
+        font-weight: bold;
+        color: #2D2D2D;
+        margin: 0;
+        text-align: center;
+    }
+
+    .button_primary,
+    .button_secondary {
+        padding: 5px 35px;
+        font-size: 14px;
+    }
+}

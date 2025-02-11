@@ -1,0 +1,311 @@
+.report_container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+}
+
+.main_content {
+    margin-left: 200px;
+    padding: 50px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #EDF2F4;
+}
+
+
+/*---------- Header Section----------*/
+.report_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.report_header h2 {
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.profile_pic:hover, .profile_name:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);}
+    
+.profile {
+    border-radius: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile_pic {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile_name {
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #333;
+    background-color: #F5F5F4;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+
+/*----------Dropdown Menu----------*/
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.dropdownMenu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdownMenu li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdownMenu li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/*----------Report Content----------*/
+.report_content {
+    position: relative;
+    display: flex;
+    background-color: #FFF;
+    padding: 50px;
+    border-radius: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    max-height: 600px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+}
+
+
+.button_row {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.classify_buttons label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.classify_button {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+
+/*----------Report Title Textbox----------*/
+.report_textbox_title {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+    margin-bottom: 10px;
+    height: 50px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+
+/*----------Report Problem Textbox----------*/
+.report_textbox_problem {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+    height: 200px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.button_container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.send_report_button {
+    background-color: #2B2D42;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.send_report_button:hover {
+    background-color: #1a1a1a;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.report_content h1 {
+    padding: 10px;
+}
+
+.report_content h2 {
+    padding: 10px;
+}
+
+
+/*----------Proof of Deposit----------*/
+.proof_of_deposit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    width: 100%;
+}
+
+.proof_of_deposit label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.proof_of_deposit input[type="file"] {
+    padding: 10px;
+    font-size: 16px;
+    color: #6E7DAB;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.proof_of_deposit input[type="file"]:hover {
+    border-color: #1E2953;
+}
+
+
+/*----------Image Preview----------*/
+.imagePreview {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    object-fit: contain;
+    display: flex;
+    justify-content: center;
+}
+
+.imagePreview img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+
+
+/*----------Media Queries----------*/
+@media (max-width: 768px) {
+    .main_content {
+        margin-left: 200px; 
+    padding: 20px; 
+    width: calc(100% - 200px); 
+    overflow-x: hidden; 
+    margin-top: 20px; 
+    }
+
+    .dashboard_header h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .profile_name {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .report_content {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .report_content h1 {
+        margin-top: 40px;
+    }
+
+    .report_textbox {
+        height: auto;
+    }
+
+    .send_report_button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .button_row {
+        top: 5px;
+        right: 5px;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main_content {
+        margin-left: 0;
+        padding: 15px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .report_header h2{
+        font-size: 1.8rem;
+    }
+
+    .report_content h1{
+        font-size: 1.7rem;
+    }
+
+    .report_content h2{
+        font-size: 1.4rem;
+    }
+}

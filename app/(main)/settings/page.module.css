@@ -1,0 +1,122 @@
+.properties_container {
+    width: 100vw;
+    height: 100vh;
+    margin-top: -10px;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+}
+
+.main_content {
+    margin-left: 200px;
+    padding: 50px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #EDF2F4;
+}
+
+
+/*----------Header Section----------*/
+.settings_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.settings_header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position:relative;
+}
+
+.profile_pic {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile_name {
+    font-size: 16px;
+    color: #333;
+    background-color: #F5F5F5;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+
+/*----------Dropdown Menu----------*/
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.dropdownMenu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdownMenu li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdownMenu li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/*----------MEDIA QUERIES----------*/
+@media (max-width: 768px) {
+    .properties_container {
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    .main_content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .dashboard_header h2 {
+        font-size: 20px;
+    }
+
+    .profile {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main_content {
+        padding: 10px;
+    }
+
+    .dashboard_header h2 {
+        font-size: 20px;
+    }
+
+    .profile_name {
+        font-size: 14px;
+    }
+
+    .properties h2 {
+        font-size: 20px;
+    }
+}
