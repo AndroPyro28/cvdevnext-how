@@ -6,6 +6,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import Sidebar from "../../../../components/sidebar";
+import axios from "axios";
 
 export default function ViewProperty() {
     const router = useRouter();
@@ -24,21 +25,16 @@ export default function ViewProperty() {
 
     useEffect(() => {
         const fetchPropertyDetails = async () => {
+            setLoading(true)
             try {
-                const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`/api/home-owner/properties/${propId}`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                });
-    
-                if (!response.ok) {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/properties-by-propId/${propId}`);
+                
+                if (response.status != 200) {
                     throw new Error("Failed to fetch property details");
                 }
-    
-                const data = await response.json();
-    
+                
+                const data = response.data;
+                console.log(data)
                 // Convert Decimal128 fields to numbers
                 const processedProperty = {
                     ...data,
@@ -48,8 +44,9 @@ export default function ViewProperty() {
                     prop_curr_amt_due: convertDecimal(data.prop_curr_amt_due),
                 };
     
+                console.log(processedProperty)
                 setProperty(processedProperty);
-    
+                
                 // Fetch user data after property details are successfully fetched
                 fetchUserData(processedProperty.prop_owner_id);
             } catch (error) {
