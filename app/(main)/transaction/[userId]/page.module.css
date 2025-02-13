@@ -144,7 +144,7 @@
     font-weight: 600;
 }
 
-.fully_paid {
+.fully_paid, .completed {
     background-color: #00D12E;
 }
 
@@ -164,7 +164,7 @@
     background-color: #FFC145;
 }
 
-.overdue {
+.overdue, .rejected {
     background-color: #D10000;
 }
 

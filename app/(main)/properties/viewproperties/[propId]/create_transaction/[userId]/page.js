@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './page.module.css';
 import Sidebar from "../../../../../../components/sidebar";
+import { useSession } from 'next-auth/react';
 
 // Modal component
 const Modal = ({ isOpen, onClose, summary, onSubmit }) => {
@@ -61,7 +62,7 @@ const Modal = ({ isOpen, onClose, summary, onSubmit }) => {
 };
 
 export default function CreateTransaction() {
-    const { propId } = useParams();
+    const { propId, userId } = useParams();
     const router = useRouter();
     const [selectedBillingStatement, setSelectedBillingStatement] = useState("");
     const [property, setProperty] = useState(null);
@@ -84,7 +85,7 @@ export default function CreateTransaction() {
     const [walletAdvWaterPay, setWalletAdvWaterPay] = useState(0);
     const [walletAdvGarbPay, setWalletAdvGarbPay] = useState(0);
     const [userData, setUserData] = useState(null);
-
+    const {data, status} = useSession()
     // Final submit to the database
  // Final submit to the database
  const handleConfirmSubmit = async () => {
@@ -112,7 +113,7 @@ export default function CreateTransaction() {
 
     try {
         // Submit the transaction
-        const transactionResponse = await fetch(`/api/home-owner/transactions/${propId}`, {
+        const transactionResponse = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/transactions/${propId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -154,7 +155,7 @@ const handleWalletUpdate = async (walletData) => {
     try {
         console.log('Sending wallet update request with data:', walletData); // Debugging
 
-        const response = await fetch(`/api/home-owner/wallet`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/wallet`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -187,7 +188,7 @@ useEffect(() => {
         console.log('Fetching property with propId:', propId); // Debugging
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`/api/home-owner/properties/${propId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/properties-by-propId/${propId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -199,7 +200,7 @@ useEffect(() => {
             }
 
             const data = await response.json();
-
+            console.log("dataaa", data)
             // Convert all Decimal128 fields in the property object
             const convertedData = {
                 ...data,
@@ -220,7 +221,7 @@ useEffect(() => {
     const fetchUserData = async (userId) => {
         try {
             const authToken = localStorage.getItem("authToken");
-            const response = await fetch(`/api/home-owner/header/${userId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/header/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
@@ -235,7 +236,7 @@ useEffect(() => {
         }
     };
 
-    fetchUserData();
+    fetchUserData(userId);
     fetchProperty();
 }, [propId]);
     
@@ -513,10 +514,10 @@ useEffect(() => {
     return (
         <div className={styles.createtrans_container}>
                 <main className={styles.main_content}>
-                    <header className={styles.createtrans_header}>
+                    {/* <header className={styles.createtrans_header}>
                         <h2>Create Transaction</h2>
                         {userData && (
-                            <div className={styles.profile} onClick={toggleDropdown}>
+                            <div className={styles.profile}>
                                 <div className={styles.profile_pic}>
                                      <Image src="/cvprofile_default.jpg" alt="Profile" width={40} height={40} />
                                 </div>
@@ -533,7 +534,7 @@ useEffect(() => {
                                 )}
                             </div>
                         )}
-                    </header>
+                    </header> */}
                     
                     <div className={styles.property_card}>
                         <div className={styles.header}>

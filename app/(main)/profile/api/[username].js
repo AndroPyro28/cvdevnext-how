@@ -15,7 +15,7 @@ const Profile = () => {
 
   const fetchUserData = async () => {
     try {
-      const res = await fetch(`/api/home-owner/user?username=${username}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/user?username=${username}`);
       const data = await res.json();
       setUserData(data);
       setLoading(false);

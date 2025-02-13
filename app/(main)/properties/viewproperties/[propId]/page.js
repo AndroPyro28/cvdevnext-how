@@ -7,10 +7,11 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import Sidebar from "../../../../components/sidebar";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 export default function ViewProperty() {
     const router = useRouter();
-    const { propId,userId } = useParams(); // Get the property ID from the route params
+    const { propId } = useParams(); // Get the property ID from the route params
     const [property, setProperty] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [userData, setUserData] = useState(null);
@@ -23,6 +24,8 @@ export default function ViewProperty() {
         return value && value.$numberDecimal ? parseFloat(value.$numberDecimal) : value;
     };
 
+    const {status, data} = useSession()
+    
     useEffect(() => {
         const fetchPropertyDetails = async () => {
             setLoading(true)
@@ -59,7 +62,7 @@ export default function ViewProperty() {
         const fetchUserData = async (userId) => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`/api/home-owner/header/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/header/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                     },
@@ -77,6 +80,7 @@ export default function ViewProperty() {
         fetchPropertyDetails();
     }, [propId]);
     
+    console.log()
 
     const handleLogout = () => {
         // Clear user session data
@@ -85,11 +89,11 @@ export default function ViewProperty() {
         router.push('/');
     };
 
-    if (loading) {
+    if (loading || status === "loading") {
         return <p>Loading property details...</p>;
     }
 
-    if (!property) {
+    if (!property || status === "unauthenticated") {
         return <p>Property not found.</p>;
     }
 
@@ -176,7 +180,7 @@ export default function ViewProperty() {
                                 </button>
                                 <button
                                     className={styles.button_primary}
-                                    onClick={() => router.push(`/properties/viewproperties/${propId}/create_transaction/${propId}`)}
+                                    onClick={() => router.push(`/properties/viewproperties/${propId}/create_transaction/${data?.user?.usr_id}`)}
                                     
                                 >
                                     Pay Billing Statement

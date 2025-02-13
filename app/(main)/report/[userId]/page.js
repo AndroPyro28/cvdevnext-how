@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Sidebar from '../../../components/sidebar.js';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function ReportPage({ params }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -28,7 +29,7 @@ export default function ReportPage({ params }) {
         const fetchUserData = async () => {
             const authToken = localStorage.getItem('authToken');
             try {
-                const response = await fetch(`/api/home-owner/header/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/header/${userId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${authToken}`,
@@ -94,7 +95,7 @@ export default function ReportPage({ params }) {
                 uploadedImageURL = await uploadImage(proofOfDeposit);
             }
 
-            const response = await fetch('/api/home-owner/report', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/report?userId=${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

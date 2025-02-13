@@ -21,14 +21,8 @@ export default function Statements({ params }) {
     useEffect(() => {
         const fetchStatements = async () => {
             try {
-                const authToken = localStorage.getItem('authToken');
-                if (!authToken) {
-                    throw new Error('No auth token found. Please login.');
-                }
-
-                const response = await fetch(`/api/home-owner/statements`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/statements?userId=${userId}`, {
                     headers: {
-                        Authorization: `Bearer ${authToken}`,
                         'Content-Type': 'application/json',
                     },
                 });
@@ -63,7 +57,7 @@ export default function Statements({ params }) {
         const fetchUserData = async (userId) => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`/api/home-owner/header/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/header/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                     },
