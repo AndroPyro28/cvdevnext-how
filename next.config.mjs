@@ -1,9 +1,25 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default {
+const nextConfig = {
     images: {
-        domains: ['cdn.cvconnect.app'],  // Add your external domain here
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'cdn.cvconnect.app',
+          pathname: '/**',
+        },
+        {
+          protocol: "https",
+          hostname: "res.cloudinary.com",
+          pathname: '/**',
+        },
+        {
+          protocol: 'http', // Allow HTTP images from Cloudinary
+          hostname: 'res.cloudinary.com',
+          pathname: '/**',
+        }
+      ],
     },
-    // Other configurations...
-};
+    reactStrictMode: true, // Enable strict mode for React
+  };
+  
+  export default nextConfig;
