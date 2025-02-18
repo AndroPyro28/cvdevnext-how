@@ -563,7 +563,7 @@ useEffect(() => {
                                                    Select a bill
                                             </option>
 
-                                    {billingStatements.length > 0 ? (
+                                    {billingStatements?.length > 0 ? (
                                         <>
                                             { billingStatements.map((statement) => <option value={statement.bll_id}>
                                                     Bill: {statement.bll_total_amt_due}
