@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './page.module.css';
 import { useSession } from 'next-auth/react';
-import { cn } from '@/lib/utils';
+import { cn, uploadPhoto } from '@/lib/utils';
 
 // Modal component
 const Modal = ({ isOpen, onClose, summary, onSubmit }) => {
@@ -99,6 +99,8 @@ export default function CreateTransaction() {
         return;
     }
 
+    const {url} = await uploadPhoto(proofOfDeposit)
+
     const transactionData = {
         trn_type: selectedTransactionType,
         trn_user_init: property?.prop_owner_id,
@@ -106,7 +108,7 @@ export default function CreateTransaction() {
         trn_purp: transactionPurpose,
         trn_method: selectedPaymentMethod,
         trn_amount: parseFloat(amountToPay),
-        trn_image_url: proofOfDeposit.name,
+        trn_image_url: url,
         bill_id: billingStatementId
     };
 
@@ -148,7 +150,6 @@ export default function CreateTransaction() {
         }
 
         alert(`Transaction submitted successfully with ID: ${transactionResponseData.transactionId}`);
-        router.push(`/transactions`);
     } catch (error) {
         console.error("Error during submission:", error);
         alert("An error occurred. Please try again.");
