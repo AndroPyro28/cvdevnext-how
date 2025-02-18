@@ -142,14 +142,14 @@ export default function Statements({ params, userId }) {
                                         <td>
                                             <span
                                                 className={`${styles.status} ${
-                                                    statement.bll_pay_stat.trim().toLowerCase() === 'paid'
+                                                    statement.bll_pay_stat.trim().toLowerCase() === 'paid' && statement.transactions_status === "completed"
                                                         ? styles.paid
-                                                        : statement.bll_pay_stat.trim().toLowerCase() === 'partially paid'
-                                                        ? styles.partially_paid
+                                                        // : statement.bll_pay_stat.trim().toLowerCase() === 'partially paid'
+                                                        // ? styles.partially_paid
                                                         : styles.unpaid
                                                 }`}
                                             >
-                                                {statement.bll_pay_stat}
+                                                {statement.bll_pay_stat.trim().toLowerCase() === 'paid' && statement.transactions_status === "completed" ? "paid" : "pending"}
                                             </span>
                                         </td>
                                         <td>
