@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './page.module.css';
 import { useSession } from 'next-auth/react';
+import { cn } from '@/lib/utils';
 
 // Modal component
 const Modal = ({ isOpen, onClose, summary, onSubmit }) => {
@@ -71,7 +72,7 @@ export default function CreateTransaction() {
     const [minimumAmount, setMinimumAmount] = useState(0);
     const [summary, setSummary] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
-    const [selectedTransactionType, setSelectedTransactionType] = useState(null);
+    const [selectedTransactionType, setSelectedTransactionType] = useState("Full Payment");
     const [transactionPurpose, setTransactionPurpose] = useState('Select');
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [amountToPay, setAmountToPay] = useState('');
@@ -89,7 +90,7 @@ export default function CreateTransaction() {
 
     const selectedBillingStatement = billingStatements?.find(statement => statement.bll_id === billingStatementId)
 
-
+    console.log(selectedBillingStatement)
     // Final submit to the database
  // Final submit to the database
  const handleConfirmSubmit = async () => {
@@ -147,7 +148,7 @@ export default function CreateTransaction() {
         }
 
         alert(`Transaction submitted successfully with ID: ${transactionResponseData.transactionId}`);
-        router.push(`/transaction/${property?.prop_owner_id}`);
+        router.push(`/transactions`);
     } catch (error) {
         console.error("Error during submission:", error);
         alert("An error occurred. Please try again.");
@@ -280,25 +281,29 @@ useEffect(() => {
         setSelectedTransactionType(type);
         setTransactionTypeError('');
         setAmountError('');
+        const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
 
         // Get the corresponding amount for the selected transaction purpose
         let amount = 0;
-
+        // bll_hoamaint_fee
+        // bll_water_charges
+        // bll_garb_charges
+        // bll_total_amt_due
         if (transactionPurpose === 'HOA Maintenance Fees') {
-            amount = property?.prop_curr_hoamaint_fee || 0;
+            amount = selectedBillingStatementData?.bll_hoamaint_fee || 0;
         } else if (transactionPurpose === 'Water Bill') {
-            amount = property?.prop_curr_water_charges || 0;
+            amount = selectedBillingStatementData?.bll_water_charges || 0;
         } else if (transactionPurpose === 'Garbage') {
-            amount = property?.prop_curr_garb_fee || 0;
+            amount = selectedBillingStatementData?.bll_garb_charges || 0;
         } else if (transactionPurpose === 'All') {
-            amount = (property?.prop_curr_hoamaint_fee || 0) +
-                (property?.prop_curr_water_charges || 0) +
-                (property?.prop_curr_garb_fee || 0);
+            amount = (selectedBillingStatementData?.bll_total_amt_due)
         }
 
+        console.log(type)
     // Handle amounts for specific transaction types
         if (type === 'Partial Payment') {
             const halfAmount = amount / 2;
+            console.log("half", halfAmount)
             setMinimumAmount(halfAmount); // Minimum should be half
             setAmountToPay(halfAmount);  // Set the "Amount to Pay" to this value
         } else if (type === 'Advanced Payment') {
@@ -320,7 +325,8 @@ useEffect(() => {
 
     const handleAmountChange = (e) => {
         let inputAmount = parseFloat(e.target.value) || 0; // Ensure input is parsed as a number
-        let maxAmount = property?.prop_curr_amt_due || 0;
+        const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
+        let maxAmount = selectedBillingStatementData?.prop_curr_amt_due || 0;
         let minAmount = 0;
     
         // Reset wallet allocations if amount changes
@@ -331,22 +337,22 @@ useEffect(() => {
         // Reset error messages
         setAmountError("");
         let excessAmount = 0;
-    
+       
         // Handle Advance Payment logic first
-        if (selectedTransactionType === 'Advance Payment' && transactionPurpose) {
+        if (selectedTransactionType === 'Advanced Payment') {
             // Set the minimum amount based on the selected transaction purpose
             switch (transactionPurpose) {
                 case 'HOA Maintenance Fees':
-                    minAmount = property?.prop_curr_hoamaint_fee || 0;
+                    minAmount = selectedBillingStatementData?.bll_hoamaint_fee || 0;
                     break;
                 case 'Water Bill':
-                    minAmount = property?.prop_curr_water_charges || 0;
+                    minAmount = selectedBillingStatementData?.bll_water_charges || 0;
                     break;
                 case 'Garbage':
-                    minAmount = property?.prop_curr_garb_fee || 0;
+                    minAmount = selectedBillingStatementData?.bll_garb_charges || 0;
                     break;
                 case 'All':
-                    minAmount = property?.prop_curr_amt_due || 0;
+                    minAmount = selectedBillingStatementData?.bll_total_amt_due || 0;
                     break;
                 default:
                     minAmount = 0;
@@ -354,7 +360,7 @@ useEffect(() => {
     
             // Check if the entered amount is lower than the minimum amount for advance payment
             if (inputAmount < minAmount) {
-                setAmountError(`Amount must be at least PHP ${minAmount.toFixed(2)}`);
+                setAmountError(`Amount must be at least PHP ${Number(minAmount).toFixed(2)}`);
             } else {
                 setAmountError(''); // Clear the error if amount is valid
             }
@@ -365,31 +371,32 @@ useEffect(() => {
         }
     
         // Handle Partial Payment logic (fallback)
-        if (selectedTransactionType === 'Partial Payment' && transactionPurpose) {
+        if (selectedTransactionType === 'Partial Payment') {
             switch (transactionPurpose) {
                 case 'HOA Maintenance Fees':
-                    maxAmount = property?.prop_curr_hoamaint_fee || 0;
+                    maxAmount = selectedBillingStatementData?.bll_hoamaint_fee || 0;
                     break;
                 case 'Water Bill':
-                    maxAmount = property?.prop_curr_water_charges || 0;
+                    maxAmount = selectedBillingStatementData?.bll_water_charges || 0;
                     break;
                 case 'Garbage':
-                    maxAmount = property?.prop_curr_garb_fee || 0;
+                    maxAmount = selectedBillingStatementData?.bll_garb_charges || 0;
                     break;
                 case 'All':
-                    maxAmount = property?.prop_curr_amt_due || 0;
+                    maxAmount = selectedBillingStatementData?.bll_total_amt_due || 0;
                     break;
                 default:
                     maxAmount = 0;
             }
-            minAmount = maxAmount / 2; // Set minimum as half of the selected purpose amount
+            minAmount = Number(maxAmount) / 2; // Set minimum as half of the selected purpose amount
         }
-    
+
+
         // Handle the general validation for Partial Payments
         if (inputAmount < minAmount) {
             setAmountError(`Amount must be at least PHP ${minAmount.toFixed(2)}`);
         } else if (inputAmount > maxAmount) {
-            setAmountError(`Amount cannot exceed PHP ${maxAmount.toFixed(2)}`);
+            setAmountError(`Amount cannot exceed PHP ${Number(maxAmount).toFixed(2)}`);
         } else {
             setAmountError('');
         }
@@ -421,6 +428,7 @@ useEffect(() => {
         } else if (purpose === 'All') {
             prefilledAmount = selectedBillingStatementData?.bll_total_amt_due
         }
+        
         setAmountToPay(prefilledAmount);
         setMinimumAmount(prefilledAmount);
     };
@@ -516,10 +524,9 @@ useEffect(() => {
         router.push('/');
     };
     
-    console.log("selected", selectedBillingStatement)
     return (
-        <div className={styles.createtrans_container}>
-                <main className={styles.main_content}>
+        <div className={"w-full h-[90%] overflow-auto"}>
+                <main className={"px-10"}>
                     {/* <header className={styles.createtrans_header}>
                         <h2>Create Transaction</h2>
                         {userData && (
@@ -579,11 +586,12 @@ useEffect(() => {
 
                                 <div className={styles.transaction_purpose}>
                                     <label>Select Transaction Purpose:</label>
+                                    <div className={cn("cursor-default", (!billingStatementId) && "pointer-events-none opacity-[0.5]")}>
                                     <select
                                         className={styles.purposes}
                                         onChange={handleTransactionPurposeChange}
                                         value={transactionPurpose}
-                                    >
+                                        >
                                         <option value="Select">Select</option>
                                         <option value="All">All</option>
                                         <option value="HOA Maintenance Fees">HOA Maintenance Fees</option>
@@ -591,6 +599,7 @@ useEffect(() => {
                                         <option value="Garbage">Garbage</option>
                                         <option value="Others">Others</option>
                                     </select>
+                                        </div>
                                     {transactionPurposeError && <p className={styles.errorMessage}>{transactionPurposeError}</p>}
                                 </div>
                             </div>
@@ -598,30 +607,32 @@ useEffect(() => {
                             <div className="type_payment_container">
                                 <div className={styles.transaction_details}>
                                     <p>Transaction Type:</p>
+                                    <div className={cn("cursor-default", (transactionPurpose == "Select") && "pointer-events-none opacity-[0.5]")}>
                                     <div className={styles.transaction_type}>
                                         <button
                                             type="button"
                                             onClick={() => handleTransactionType('Partial Payment')}
                                             className={`${styles.transaction_button} ${selectedTransactionType === 'Partial Payment' ? styles.activeTransaction : ''}`}
-                                        >
+                                            >
                                             Partial Payment
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => handleTransactionType('Full Payment')}
                                             className={`${styles.transaction_button} ${selectedTransactionType === 'Full Payment' ? styles.activeTransaction : ''}`}
-                                        >
+                                            >
                                             Full Payment
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => handleTransactionType('Advanced Payment')}
                                             className={`${styles.transaction_button} ${selectedTransactionType === 'Advanced Payment' ? styles.activeTransaction : ''}`}
-                                        >
+                                            >
                                             Advanced Payment
                                         </button>
                                         {transactionTypeError && <p className={styles.errorMessage}>{transactionTypeError}</p>}
                                     </div>
+                                            </div>
                                 </div>
 
                                 <div className={styles.payment_details}>
@@ -670,11 +681,16 @@ useEffect(() => {
                                         </>
                                     )}
 
-                                    {property?.prop_curr_amt_due != null && (
                                         <div className={styles.total_amount}>
-                                            <p>Total Amount Due: <span>{property.prop_curr_amt_due}</span></p>
+                                            <p>Total Amount Due: <span>{
+                                                (() => {
+                                                     if( transactionPurpose === 'Garbage') return selectedBillingStatement.bll_garb_charges
+                                                    else if( transactionPurpose === 'Water Bill') return selectedBillingStatement.bll_water_charges
+                                                    else if( transactionPurpose === 'HOA Maintenance Fees') return selectedBillingStatement.bll_hoamaint_fee
+                                                    else return selectedBillingStatement?.bll_total_amt_due
+                                                })()
+                                                }</span></p>
                                         </div>
-                                    )}
                                 </div>
                             </div>
 
