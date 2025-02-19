@@ -257,7 +257,9 @@ export default function Dashboard({ params }) {
                   transaction?.trn_status == "completed" && "bg-green-500 px-5 py-1 rounded-[25px] text-white", 
                 )}>{transaction?.trn_status}</span></span>
                 <span className="flex-1 flex justify-start font-semibold">{transaction?.trn_method}</span>
-                <button className="px-5 py-2 bg-[#2b2d42] text-white rounded-[25px]">View Transaction</button>
+                <button className="px-5 py-2 bg-[#2b2d42] text-white rounded-[25px]" onClick={() => {
+                  router.push(`/transaction/${userId}`)
+                }}>View Transaction</button>
               </div>
             ))}
         </div>

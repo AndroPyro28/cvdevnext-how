@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import Sidebar from '@/app/components/sidebar.js';
 
 export const metadata = {
-  title: "CVConnect | Admin - Dashboard",
+  title: "CVConnect | Home Owner- Dashboard",
   description: "Integrated solutions for record management.",
 };
 
