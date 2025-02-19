@@ -11,10 +11,8 @@ export default async function UserLayout({
     }
 
   return (
-    <html lang="en">
-      <body >
+   <main>
         {children}
-      </body>
-    </html>
+   </main>
   );
 }

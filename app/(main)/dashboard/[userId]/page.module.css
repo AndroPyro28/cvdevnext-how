@@ -1,0 +1,341 @@
+.properties_container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+}
+
+.main_content {
+    margin-left: 200px;
+    padding: 50px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #EDF2F4;
+}
+
+/*---------- Header Section----------*/
+.properties_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.properties_header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.profile {
+    border-radius: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile_pic:hover,
+.profile_name:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.profile_pic {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile_name {
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #333;
+    background-color: #F5F5F4;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+
+/*----------Dropdown Menu----------*/
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.dropdownMenu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdownMenu li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdownMenu li:hover {
+    background-color: #f0f0f0;
+}
+
+/*----------Address Section----------*/
+.address {
+    margin: 5px 0;
+    color: #2B2D42;
+}
+
+.address_label {
+    font-weight: normal;
+    color: #2B2D42;
+}
+
+.address_details {
+    margin: 0;
+    color: #2B2D42;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+/*----------Properties Section----------*/
+.properties {
+    margin-top: 40px;
+}
+
+.property_card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.property_card:hover {
+    transform: translateY(-5px);
+}
+
+.property_card img {
+    border-radius: 15px;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.property_details {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.property_details h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.property_details p {
+    margin: 5px 0;
+    color: #7f8c8d;
+}
+
+.billing_label {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.billing_status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin: 8px 0;
+}
+
+.billing_partial {
+    background-color: #FFC145;
+    border-radius: 15px;
+    color: #fff;
+}
+
+.billing_full {
+    background-color: #00D12E;
+    border-radius: 15px;
+    color: #fff;
+}
+
+.property_details button {
+    background-color: #2B2D42;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.property_details button:hover {
+    background-color: #1a1a1a;
+}
+
+.button_primary {
+    background-color: transparent;
+    color: #2B2D42;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid #1F1F3A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+/*----------MEDIA QUERIES----------*/
+@media (max-width: 875px) {
+    .properties_container {
+        margin-left: 100px;
+        width: calc(100vw - 100px);
+        padding: 10px;
+    }
+
+    .main_content {
+        margin-left: 100px;
+        padding: 20px;
+    }
+
+    .properties_header h2 {
+        font-size: 2.5rem;
+    }
+
+    .property_card {
+        padding: 15px;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .property_card img {
+        max-width: 200px;
+    }
+
+    .property_details {
+        padding-left: 10px;
+    }
+
+    .button_primary {
+        padding: 10px 35px;
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    .main_content {
+        width: 85%;
+        max-width: 700px;
+    }
+
+    .properties_header h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .property_card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        display: flex;
+    }
+
+    .property_card img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .property_details {
+        padding: 10px 0 0 0;
+    }
+
+    .property_details button {
+        width: 480px;
+    }
+
+    .button_primary {
+        padding: 10px 35px;
+        font-size: 16px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .properties_container {
+        width: 100vw;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main_content {
+        padding: 10px;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .properties_header h2 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .property_card {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .profile_name {
+        font-size: 16px;
+    }
+
+    .property_card img {
+        max-width: 100%;
+        height: 150px;
+    }
+
+    .property_details h3 {
+        font-size: 20px;
+    }
+
+    .property_details button {
+        width: 110%;
+    }
+
+    .button_primary {
+        padding: 10px 35px;
+        font-size: 16px;
+        max-width: 100%;
+    }
+}
