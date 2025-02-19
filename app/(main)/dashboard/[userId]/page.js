@@ -143,7 +143,6 @@ export default function Dashboard({ params }) {
   }
 
   const { initialAmounts, billsHaveBeenPaid } = data?.billSummary;
-  console.log(transactionData);
   const totalDues = initialAmounts.total - billsHaveBeenPaid.total;
   const waterDues = initialAmounts.water - billsHaveBeenPaid.water;
   const garbageDues = initialAmounts.garbage - billsHaveBeenPaid.garbage;
