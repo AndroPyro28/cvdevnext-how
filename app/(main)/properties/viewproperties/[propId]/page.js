@@ -6,7 +6,6 @@ const ViewPropertyPage = async () => {
 
     const session = await getSession()
 
-    console.log(session.user)
     if(!session || !session.user) {
       return redirect("/")
     }

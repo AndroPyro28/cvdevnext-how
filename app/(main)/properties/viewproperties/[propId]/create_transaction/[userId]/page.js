@@ -90,7 +90,6 @@ export default function CreateTransaction() {
 
     const selectedBillingStatement = billingStatements?.find(statement => statement.bll_id === billingStatementId)
 
-    console.log(selectedBillingStatement)
     // Final submit to the database
  // Final submit to the database
  const handleConfirmSubmit = async () => {
@@ -524,6 +523,7 @@ useEffect(() => {
         signOut()
         router.push('/');
     };
+    const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
     
     return (
         <div className={"w-full h-[90%] overflow-auto"}>
@@ -555,7 +555,7 @@ useEffect(() => {
                             <button className={styles.back_button} onClick={() => router.push(`/properties/${userId}`)}>
                                 ←
                             </button>
-                            <p className={styles.balance}>Outstanding Balance: <span>{property?.prop_curr_amt_due || 0}</span></p>
+                            <p className={styles.balance}>Outstanding Balance: <span>{selectedBillingStatementData?.bll_total_amt_due || 0}</span></p>
                         </div>
                         <div className="options_container">
                             <div className="billing_purpose_container">

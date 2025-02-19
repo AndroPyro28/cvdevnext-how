@@ -11,6 +11,7 @@ import { formatToDecimal } from "@/lib/numberFormatter";
 import Image from "next/image";
 import axios from "axios";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // assets
 

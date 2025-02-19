@@ -36,7 +36,6 @@ export default function ViewProperty({userId}) {
                 }
                 
                 const data = response.data;
-                console.log(data)
                 // Convert Decimal128 fields to numbers
                 const processedProperty = {
                     ...data,
@@ -45,8 +44,7 @@ export default function ViewProperty({userId}) {
                     prop_curr_garb_fee: convertDecimal(data.prop_curr_garb_fee),
                     prop_curr_amt_due: convertDecimal(data.prop_curr_amt_due),
                 };
-    
-                console.log(processedProperty)
+                
                 setProperty(processedProperty);
                 
                 // Fetch user data after property details are successfully fetched
@@ -94,7 +92,7 @@ export default function ViewProperty({userId}) {
     if (!property || status === "unauthenticated") {
         return <p>Property not found.</p>;
     }
-
+    
     return (
         <div className={styles.properties_container}>
                 <main className={styles.main_content}>
