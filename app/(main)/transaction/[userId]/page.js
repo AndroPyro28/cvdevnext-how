@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Sidebar from '../../../components/sidebar.js';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 export default function TransactionsPage({ params }) {
     const userId = params.userId; // Get the userId from params
@@ -22,6 +22,7 @@ export default function TransactionsPage({ params }) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const router = useRouter();
 
+    const {data: session} = useSession()
 
     useEffect(() => {
         console.log('Transactions State:', transactions);
@@ -125,7 +126,12 @@ export default function TransactionsPage({ params }) {
                         <h2>Transaction History</h2>
                         <div className={styles.profile} onClick={toggleDropdown}>
                             <div className={styles.profile_pic}>
-                                <Image src="/cvprofile_default.jpg" alt="Profile" width={40} height={40} />
+                            <Image
+                src={session?.user?.profile_photo || "/cvprofile_default.jpg"}
+                alt="Profile"
+                width={40}
+                height={40}
+              />
                             </div>
                             <div className={styles.profile_name}>{userFirstName} {userLastName}</div>
                             {dropdownOpen && (

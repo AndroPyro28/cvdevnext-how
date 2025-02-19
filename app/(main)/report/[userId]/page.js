@@ -6,6 +6,7 @@ import Sidebar from '../../../components/sidebar.js';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 export default function ReportPage({ params }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -24,6 +25,8 @@ export default function ReportPage({ params }) {
     const [proofOfDeposit, setProofOfDeposit] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
 
+
+    const {data: session} = useSession()
     // Fetch user data with authentication
     useEffect(() => {
         const fetchUserData = async () => {
@@ -164,7 +167,12 @@ export default function ReportPage({ params }) {
                         <h2>Report</h2>
                         <div className={styles.profile} onClick={() => setDropdownOpen(!dropdownOpen)} ref={dropdownRef}>
                             <div className={styles.profile_pic}>
-                                <Image src="/cvprofile_default.jpg" alt="Profile" width={40} height={40} />
+                            <Image
+                src={session?.user?.profile_photo || "/cvprofile_default.jpg"}
+                alt="Profile"
+                width={40}
+                height={40}
+              />
                             </div>
                             <div className={styles.profile_name}>{userFirstName} {userLastName}</div>
                             {dropdownOpen && (

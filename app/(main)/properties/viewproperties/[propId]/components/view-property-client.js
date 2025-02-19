@@ -101,7 +101,12 @@ export default function ViewProperty({userId}) {
                         {userData && (
                             <div className={styles.profile} onClick={toggleDropdown}>
                                 <div className={styles.profile_pic}>
-                                    <Image src="/cvprofile_default.jpg" alt="Profile" width={40} height={40} />
+                                <Image
+                src={data.user?.profile_photo || "/cvprofile_default.jpg"}
+                alt="Profile"
+                width={40}
+                height={40}
+              />
                                 </div>
                                 <div className={styles.profile_name}>
                                     {userData.userFirstName} {userData.userLastName}

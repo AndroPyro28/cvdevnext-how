@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.css';
 import {useEffect, useRef, useState} from "react";
+import { useSession } from 'next-auth/react';
 
 export default function Properties() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -12,6 +13,8 @@ export default function Properties() {
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
+
+    const {data: session} = useSession()
 
     // Close dropdown if clicking outside of it
     useEffect(() => {
@@ -35,7 +38,12 @@ export default function Properties() {
                     <h2>Settings</h2>
                     <div className={styles.profile} onClick={toggleDropdown} ref={dropdownRef}>
                         <div className={styles.profile_pic}>
-                            <Image src="/cvprofile_default.jpg" alt="Profile" width={40} height={40}/>
+                        <Image
+                src={session?.user?.profile_photo || "/cvprofile_default.jpg"}
+                alt="Profile"
+                width={40}
+                height={40}
+              />
                         </div>
                         <div className={styles.profile_name}>Homeowner</div>
                         {dropdownOpen && (

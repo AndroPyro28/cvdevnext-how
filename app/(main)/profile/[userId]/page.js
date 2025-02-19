@@ -4,13 +4,13 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import Sidebar from '../../../components/sidebar.js';
 import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import axios from 'axios';
+import { isFile, uploadPhoto } from '@/lib/utils';
 
-export default function Profile({ params }) {
-    const userId = params.userId;
+export default function ProfileClient({ params }) {
+    const userId = params.userId
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const [userData, setUserData] = useState(null);
@@ -22,6 +22,7 @@ export default function Profile({ params }) {
     const [error, setError] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newProfilePic, setNewProfilePic] = useState(null);
+    const [profileToDisplay, setProfileToDisplay] = useState(null);
     const router = useRouter();
 
     const toggleDropdown = () => {
@@ -41,19 +42,18 @@ export default function Profile({ params }) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [dropdownRef]);
-
+    const {update, data:sessionData} = useSession()
     // Fetch user data
     useEffect(() => {
         if (userId) {
             const fetchUserData = async () => {
                 try {
-                    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/profile/${userId}`);
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEV}/api/admin/profile/${userId}`);
                     if (response.status != 200) throw new Error('Failed to fetch user data');
 
                     const data = response.data;
                     console.log("Fetched User Data:", data);
 
-                    console.log(data)
 
                     // Populate all the fields with the fetched user data
                     setUserData(data);
@@ -62,6 +62,8 @@ export default function Profile({ params }) {
                     setUserName(data.userUsername || "");
                     setUserPhone(data.userPhone || "");
                     setUserEmail(data.userEmail || "");
+                    setProfileToDisplay(data.userProfile)
+                    setNewProfilePic(data.userProfile)
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                     setError(error.message);
@@ -82,12 +84,19 @@ export default function Profile({ params }) {
     const handleProfilePicChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setNewProfilePic(URL.createObjectURL(file)); // Preview the selected profile picture
+            setProfileToDisplay(URL.createObjectURL(file)); // Preview the selected profile picture
+            setNewProfilePic(file)
         }
     };
 
     // Handle profile update
     const handleProfileUpdate = async () => {
+
+        let imageUrl = newProfilePic;
+        if(newProfilePic && isFile(newProfilePic)) {
+            const {url} =  await uploadPhoto(newProfilePic)
+            imageUrl = url
+        }
         const updatedData = {
             usr_first_name: userFirstName,
             usr_last_name: userLastName,
@@ -95,13 +104,13 @@ export default function Profile({ params }) {
             usr_phone: usr_phone,
             usr_email: usr_email,
             new_password: newPassword,
+            new_imageUrl: imageUrl
         };
 
         try {
             const response = await axios.put(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/profile/${userId}`, updatedData);
             const responseData =  response.data;
           
-
             // Re-fetch updated data
             const fetchUserData = async () => {
                 try {
@@ -109,51 +118,41 @@ export default function Profile({ params }) {
                     if (response.status != 200) throw new Error('Failed to fetch updated user data');
                     
                     const data = response.data
+                    setUserData(data);
                     setUserFirstName(data.userFirstName || "");
                     setUserLastName(data.userLastName || "");
                     setUserName(data.userUsername || "");
                     setUserPhone(data.userPhone || "");
                     setUserEmail(data.userEmail || "");
+                    setProfileToDisplay(data.userProfile)
+                    setNewProfilePic(data.userProfile)
+
+                    return data
                 } catch (error) {
                     console.error('Error fetching updated user data:', error);
-                    setError(error.message);
+                         alert("Something went wrong")
+
                 }
             };
 
-            await fetchUserData();
-            alert('Profile updated successfully!');
+            const data = await fetchUserData();
+            alert("Profile update successful")
+            await update({ ...sessionData, user: {...sessionData?.user, profile_photo: data.userProfile, username: data?.userUsername, email: data?.userEmail} })
+            router.refresh()
+            // await signIn("credentials", { redirect: false, username: data.userUsername, password: newPassword  });
         } catch (error) {
             console.error('Error updating profile:', error);
-            setError(error.message);
+            alert("Something went wrong")
+
         }
     };
 
     return (
-        <div className={styles.profile_container}>
-            <Sidebar userId={userId}>
-                <main className={styles.main_content}>
-                    <header className={styles.dashboard_header}>
-                        <h2>Profile</h2>
-                        <div className={styles.profile} onClick={toggleDropdown} ref={dropdownRef}>
-                            <div className={styles.profile_pic}>
-                                <Image src="/profile-pic.png" alt="Profile" width={40} height={40} />
-                            </div>
-                            <div className={styles.profile_name}>{userFirstName} {userLastName}</div>
-                            {dropdownOpen && (
-                                <div className={styles.dropdownMenu}>
-                                    <ul>
-                                        <li><Link href={`/profile/${userId}`}>Profile</Link></li>
-                                        <li onClick={handleLogout}>Logout</li>
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-                    </header>
-
-                    <div className={styles.profile_content}>
+        <div className={"flex justify-center items-center w-full h-full"}>
+                    <div className={"w-[60%] bg-white px-10 py-10"}>
                         <div className={styles.left_column}>
                             <Image
-                                src={newProfilePic || "/profile-pic.png"}
+                                src={profileToDisplay || "/profile-pic.png"}
                                 alt="Profile"
                                 className={styles.profile_image}
                                 width={150}
@@ -221,8 +220,6 @@ export default function Profile({ params }) {
                         </div>
                     </div>
                     {error && <p className={styles.error}>{error}</p>}
-                </main>
-            </Sidebar>
         </div>
     );
 }

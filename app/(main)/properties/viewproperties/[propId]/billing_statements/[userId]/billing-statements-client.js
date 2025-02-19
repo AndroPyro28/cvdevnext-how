@@ -6,7 +6,7 @@ import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import Sidebar from "../../../../../../components/sidebar";
 import { useParams } from 'next/navigation';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 
 export default function Statements({ params, userId }) {
@@ -16,7 +16,8 @@ export default function Statements({ params, userId }) {
     const [selectedStatement, setSelectedStatement] = useState(null); // State for the selected statement
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
     const [userData, setUserData] = useState(null);
-    
+
+    const {data: session} = useSession()
     const router = useRouter()
     useEffect(() => {
         const fetchStatements = async () => {
@@ -107,7 +108,12 @@ export default function Statements({ params, userId }) {
                         {userData && (
                             <div className={styles.profile} >
                                 <div className={styles.profile_pic}>
-                                    <Image src="/cvprofile_default.jpg" alt="Profile" width={40} height={40} />
+                                <Image
+                src={session?.user?.profile_photo || "/cvprofile_default.jpg"}
+                alt="Profile"
+                width={40}
+                height={40}
+              />
                                 </div>
                                 <div className={styles.profile_name}>
                                     {userData.userFirstName} {userData.userLastName}

@@ -27,7 +27,7 @@ export default function Login() {
 
     useEffect(() => {
         if(status === "authenticated" && data?.user.usr_id ) {
-            router.push(`/transaction/${data.user.usr_id}`);
+            router.push(`/dashboard/${data.user.usr_id}`);
         }
     }, [status])
 

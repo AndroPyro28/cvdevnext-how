@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import styles from "./page.module.css";
@@ -12,6 +12,7 @@ import Image from "next/image";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // assets
 
@@ -41,7 +42,6 @@ export default function Dashboard({ params }) {
         setUserData(userData);
       } catch (error) {
         console.error("Error:", error.message);
-        setError("Failed to load properties or user data.");
       } finally {
         setLoading(false);
       }
@@ -57,6 +57,8 @@ export default function Dashboard({ params }) {
       setTime(DateTime.now().toLocaleString(DateTime.TIME_SIMPLE));
     }
   }, [status]);
+
+  const router = useRouter()
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -158,7 +160,7 @@ export default function Dashboard({ params }) {
           <div className={styles.profile} onClick={toggleDropdown}>
             <div className={styles.profile_pic}>
               <Image
-                src="/cvprofile_default.jpg"
+                src={session?.user?.profile_photo || "/cvprofile_default.jpg"}
                 alt="Profile"
                 width={40}
                 height={40}
