@@ -309,6 +309,7 @@ useEffect(() => {
         } else if (type === 'Advanced Payment') {
             setMinimumAmount(amount); // Set minimum as the current due amount
             setAmountToPay(amount);   // Initially, set to due amount without assumptions
+            setTransactionPurpose("All")
         } else {
             setAmountToPay(amount);  // For Full Payment, directly use the current due amount
             setMinimumAmount(0);    // Reset the minimum amount
@@ -595,10 +596,14 @@ useEffect(() => {
                                         >
                                         <option value="Select">Select</option>
                                         <option value="All">All</option>
-                                        <option value="HOA Maintenance Fees">HOA Maintenance Fees</option>
-                                        <option value="Water Bill">Water Bill</option>
-                                        <option value="Garbage">Garbage</option>
-                                        <option value="Others">Others</option>
+                                        {
+                                            selectedTransactionType !== "Advanced Payment" && <>
+                                            <option value="HOA Maintenance Fees">HOA Maintenance Fees</option>
+                                            <option value="Water Bill">Water Bill</option>
+                                            <option value="Garbage">Garbage</option>
+                                            <option value="Others">Others</option>
+                                            </>
+                                        }
                                     </select>
                                         </div>
                                     {transactionPurposeError && <p className={styles.errorMessage}>{transactionPurposeError}</p>}
