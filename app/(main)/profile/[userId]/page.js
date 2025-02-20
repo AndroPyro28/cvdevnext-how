@@ -202,7 +202,9 @@ export default function ProfileClient({ params }) {
                             />
 
                             </div>
-                            <div className={styles.profile_field}>
+
+                            <label className="mt-2 font-semibold">* To Change your password please go to Admin Office *</label>
+                           {/* <div className={styles.profile_field}>
                                 <label>Change Password:</label>
                                 <input 
                                     type="password" 
@@ -210,7 +212,7 @@ export default function ProfileClient({ params }) {
                                     value={newPassword} 
                                     onChange={(e) => setNewPassword(e.target.value)} 
                                 />
-                            </div>
+                            </div>*/}
                             <button 
                                 className={styles.update_profile_button}
                                 onClick={handleProfileUpdate}
