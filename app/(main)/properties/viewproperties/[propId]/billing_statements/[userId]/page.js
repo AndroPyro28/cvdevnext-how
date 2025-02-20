@@ -2,7 +2,7 @@ import { getSession } from '@/actions/getCurrentSession'
 import React from 'react'
 import Statements from './billing-statements-client'
 
-const page = async () => {
+const page = async ({params}) => {
 
     const session = await getSession()
 
@@ -13,7 +13,7 @@ const page = async () => {
 
   return (
     <div> 
-      <Statements userId={session.user.usr_id}/>
+      <Statements userId={session.user.usr_id} params={params}/>
     </div>
   )
 }

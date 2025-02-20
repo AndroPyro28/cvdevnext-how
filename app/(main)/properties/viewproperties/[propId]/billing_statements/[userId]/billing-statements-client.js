@@ -16,13 +16,14 @@ export default function Statements({ params, userId }) {
     const [selectedStatement, setSelectedStatement] = useState(null); // State for the selected statement
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
     const [userData, setUserData] = useState(null);
-
+    console.log(params)
+    const propId = params.propId
     const {data: session} = useSession()
     const router = useRouter()
     useEffect(() => {
         const fetchStatements = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/statements?userId=${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/statements/${propId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -98,7 +99,7 @@ export default function Statements({ params, userId }) {
 
     if (loading) return <p className={styles.loading}>Loading...</p>;
     if (error) return <p className={styles.error}>{error}</p>;
-    if (!statements.length) return <p className={styles.no_data}>No billing statements found.</p>;
+    // if (statements.length) return <p className={styles.no_data}>No billing statements found.</p>;
 
     return (
         <div className={styles.page_container}>
