@@ -198,6 +198,7 @@ export default function ProfileClient({ params }) {
                                 <input 
                                 type="text" 
                                 value={usr_email} 
+                                readOnly
                                 onChange={(e) => setUserEmail(e.target.value)} 
                             />
 
