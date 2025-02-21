@@ -98,12 +98,15 @@ export default function CreateTransaction() {
         alert('Insufficient E-Wallet balance.');
         return;
     }
-    if (!proofOfDeposit) {
+    if (!proofOfDeposit && selectedPaymentMethod === "GCash" || !proofOfDeposit && selectedPaymentMethod === "BPI") {
         alert("Please upload a proof of deposit.");
         return;
     }
-
-    const {url} = await uploadPhoto(proofOfDeposit)
+    let imageUrl;
+    if(proofOfDeposit) {
+        const {url} = await uploadPhoto(proofOfDeposit)
+        imageUrl = url
+    }
 
     const transactionData = {
         trn_type: selectedTransactionType,
@@ -112,7 +115,7 @@ export default function CreateTransaction() {
         trn_purp: transactionPurpose,
         trn_method: selectedPaymentMethod,
         trn_amount: parseFloat(amountToPay),
-        trn_image_url: url,
+        trn_image_url: imageUrl,
         bill_id: billingStatementId
     };
 
@@ -214,6 +217,7 @@ useEffect(() => {
             const data = await response.json();
             setBillingStatements(data.billingStatements)
             // Convert all Decimal128 fields in the property object
+
             const convertedData = {
                 ...data,
                 prop_curr_amt_due: convertDecimal(data.prop_curr_amt_due),
@@ -304,13 +308,13 @@ useEffect(() => {
         // bll_garb_charges
         // bll_total_amt_due
         if (transactionPurpose === 'HOA Maintenance Fees') {
-            amount = selectedBillingStatementData?.bll_hoamaint_fee || 0;
+            amount = (parseFloat(selectedBillingStatementData?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement.bll_paid_breakdown?.hoa || 0)) ;
         } else if (transactionPurpose === 'Water Bill') {
-            amount = selectedBillingStatementData?.bll_water_charges || 0;
+            amount = (parseFloat(selectedBillingStatementData?.bll_water_charges || 0) - parseFloat(selectedBillingStatement.bll_paid_breakdown?.water || 0)) ;
         } else if (transactionPurpose === 'Garbage') {
-            amount = selectedBillingStatementData?.bll_garb_charges || 0;
+            amount = (parseFloat(selectedBillingStatementData?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement.bll_paid_breakdown?.garbage || 0)) ;
         } else if (transactionPurpose === 'All') {
-            amount = (selectedBillingStatementData?.bll_total_amt_due)
+            amount = (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement.bll_total_paid || 0))
         }
 
     // Handle amounts for specific transaction types
@@ -433,15 +437,17 @@ useEffect(() => {
         setTransactionPurpose(purpose);
         setTransactionPurposeError('');
         const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
+
+       
         let prefilledAmount = 0;
         if (purpose === 'HOA Maintenance Fees') {
-            prefilledAmount = selectedBillingStatementData?.bll_hoamaint_fee || 0;
+            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0)) ;
         } else if (purpose === 'Water Bill') {
-            prefilledAmount = selectedBillingStatementData?.bll_water_charges || 0;
+            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0)) ;
         } else if (purpose === 'Garbage') {
-            prefilledAmount = selectedBillingStatementData?.bll_garb_charges || 0;
+            prefilledAmount =  (parseFloat(selectedBillingStatementData?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0));
         } else if (purpose === 'All') {
-            prefilledAmount = selectedBillingStatementData?.bll_total_amt_due
+            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0))
         }
         
         setAmountToPay(prefilledAmount);
@@ -450,7 +456,10 @@ useEffect(() => {
 
     const handlePaymentMethod = (method) => {
         setSelectedPaymentMethod(method);
-
+        if(method == "Cash" || method === "E-Wallet") {
+            setProofOfDeposit(null)
+            setImagePreview(null);
+        }
          // Clear error only if valid
         if (method) {
             setPaymentMethodError('');
@@ -498,7 +507,7 @@ useEffect(() => {
             hasError = true;
         }
     
-        if (!proofOfDeposit) {
+        if (!proofOfDeposit && selectedPaymentMethod === "GCash" || !proofOfDeposit && selectedPaymentMethod === "BPI") {
             setProofOfDepositError('Proof of Deposit is required.');
             hasError = true;
         }
@@ -539,6 +548,8 @@ useEffect(() => {
         router.push('/');
     };
     const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
+
+    console.log("BILLING STATEMENT", selectedBillingStatementData)
     return (
         <div className={"w-full h-[90%] overflow-auto"}>
                 <main className={"px-10"}>
@@ -569,7 +580,7 @@ useEffect(() => {
                             <button className={styles.back_button} onClick={() => router.back()}>
                                 ←
                             </button>
-                            <p className={styles.balance}>Outstanding Balance: <span>{selectedBillingStatementData?.bll_total_amt_due || 0}</span></p>
+                            <p className={styles.balance}>Outstanding Balance: <span>{(parseFloat(selectedBillingStatementData?.bll_total_amt_due) - parseFloat(selectedBillingStatement?.bll_total_paid)) || 0}</span></p>
 
                         </div>
                         <div className="options_container">
@@ -644,6 +655,7 @@ useEffect(() => {
                                             >
                                             Full Payment
                                         </button>
+
                                         <button
                                             type="button"
                                             onClick={() => handleTransactionType('Advanced Payment')}
@@ -712,13 +724,13 @@ useEffect(() => {
                                     { selectedBillingStatement && transactionPurpose && (
                                         <>
                                             {(transactionPurpose === 'All' || transactionPurpose === 'HOA Maintenance Fees') && (
-                                                <p>HOA Maintenance Fees: <span>{selectedBillingStatement.bll_hoamaint_fee || 0}</span></p>
+                                                <p>HOA Maintenance Fees: <span>{(parseFloat(selectedBillingStatement?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0))}</span></p>
                                             )}
                                             {(transactionPurpose === 'All' || transactionPurpose === 'Water Bill') && (
-                                                <p>Water Charges: <span>{selectedBillingStatement.bll_water_charges || 0}</span></p>
+                                                <p>Water Charges: <span>{(parseFloat(selectedBillingStatement?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0))}</span></p>
                                             )}
                                             {(transactionPurpose === 'All' || transactionPurpose === 'Garbage') && (
-                                                <p>Garbage Fee: <span>{selectedBillingStatement.bll_garb_charges || 0}</span></p>
+                                                <p>Garbage Fee: <span>{parseFloat(selectedBillingStatement?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0)}</span></p>
                                             )}
                                         </>
                                     )}
@@ -726,10 +738,10 @@ useEffect(() => {
                                         <div className={styles.total_amount}>
                                             <p>Total Amount Due: <span>{
                                                 (() => {
-                                                     if( transactionPurpose === 'Garbage') return selectedBillingStatement.bll_garb_charges
-                                                    else if( transactionPurpose === 'Water Bill') return selectedBillingStatement.bll_water_charges
-                                                    else if( transactionPurpose === 'HOA Maintenance Fees') return selectedBillingStatement.bll_hoamaint_fee
-                                                    else return selectedBillingStatement?.bll_total_amt_due
+                                                     if( transactionPurpose === 'Garbage') return (parseFloat(selectedBillingStatement?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0))
+                                                    else if( transactionPurpose === 'Water Bill') return (parseFloat(selectedBillingStatement?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0))
+                                                    else if( transactionPurpose === 'HOA Maintenance Fees') return (parseFloat(selectedBillingStatement?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0))
+                                                    else return (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0))
                                                 })()
                                                 }</span></p>
                                         </div>
@@ -774,9 +786,12 @@ useEffect(() => {
                                 {amountError && <p className={styles.errorMessage}>{amountError}</p>}
                             </div>
 
-                            <div className={styles.proof_of_deposit}>
+                            <div className={ `${styles.proof_of_deposit} ` }>
                                 <label>Proof of Deposit:</label>
-                                <input type="file" onChange={handleFileUpload} />
+                                <input type="file" onChange={handleFileUpload}
+                                disabled={selectedPaymentMethod === "E-Wallet" || selectedPaymentMethod === "Cash"}
+                                className={`disabled:opacity-[0.5] disabled:pointer-events-none`}
+                                />
                                 {imagePreview && (
                                     <div className={styles.imagePreview}>
                                         <img src={imagePreview} alt="Proof of Deposit Preview" />
