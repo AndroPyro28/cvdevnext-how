@@ -214,6 +214,7 @@ export default function TransactionsPage({ params }) {
                                     {formatDate(selectedTransaction.date) || 'Unknown Date'}
                                 </p>
                                 <p><strong>Status:</strong> {selectedTransaction.status}</p>
+                                { selectedTransaction.status === "rejected" && <p><strong>Reason:</strong> {selectedTransaction?.reason}</p>}
                                 <p><strong>Purpose:</strong> {selectedTransaction.purpose}</p>
                                 <p><strong>Payment Method:</strong> {selectedTransaction.paymentMethod}</p>
                                 <p><strong>Payment Amount:</strong> {selectedTransaction.paymentAmount}</p>

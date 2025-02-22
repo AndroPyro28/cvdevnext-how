@@ -137,6 +137,7 @@ export default function CreateTransaction() {
             body: JSON.stringify(transactionData),
         });
 
+        console.log(transactionResponse)
         if (!transactionResponse.ok) {
             const transactionError = await transactionResponse.json();
             console.error("Transaction submission failed:", transactionError.message || transactionError.error);
@@ -295,10 +296,7 @@ useEffect(() => {
         return total;
     };
 
-    const handleTransactionType = (type) => {
-        setSelectedTransactionType(type);
-        setTransactionTypeError('');
-        setAmountError('');
+    useEffect(() => {
         const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
 
         // Get the corresponding amount for the selected transaction purpose
@@ -314,15 +312,15 @@ useEffect(() => {
         } else if (transactionPurpose === 'Garbage') {
             amount = (parseFloat(selectedBillingStatementData?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement.bll_paid_breakdown?.garbage || 0)) ;
         } else if (transactionPurpose === 'All') {
-            amount = (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement.bll_total_paid || 0))
+            amount = parseFloat((parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement.bll_total_paid || 0))).toFixed(2)
         }
 
     // Handle amounts for specific transaction types
-        if (type === 'Partial Payment') {
+        if (selectedTransactionType === 'Partial Payment') {
             const halfAmount = amount / 2;
             setMinimumAmount(halfAmount); // Minimum should be half
             setAmountToPay(halfAmount);  // Set the "Amount to Pay" to this value
-        } else if (type === 'Advanced Payment') {
+        } else if (selectedTransactionType === 'Advanced Payment') {
             setMinimumAmount(amount); // Set minimum as the current due amount
             setAmountToPay(amount);   // Initially, set to due amount without assumptions
             setTransactionPurpose("All")
@@ -333,11 +331,38 @@ useEffect(() => {
         }
 
         // Clear error only if valid
-        if (type) {
+        if (selectedTransactionType) {
             setTransactionTypeError('');
         } else {
             setTransactionTypeError('Transaction Type is required.');
         }
+    }, [selectedTransactionType])
+
+    useEffect(() => {
+        const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
+        let prefilledAmount = 0;
+        if (transactionPurpose === 'HOA Maintenance Fees') {
+            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0)) ;
+        } else if (transactionPurpose === 'Water Bill') {
+            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0)) ;
+        } else if (transactionPurpose === 'Garbage') {
+            prefilledAmount =  (parseFloat(selectedBillingStatementData?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0));
+        } else if (transactionPurpose === 'All') {
+            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0)).toFixed(2)
+        }
+
+        if(selectedTransactionType === 'Partial Payment') {
+            prefilledAmount /= 2
+        }
+        
+        setAmountToPay(prefilledAmount);
+        setMinimumAmount(prefilledAmount);
+    }, [transactionPurpose])
+
+    const handleTransactionType = (type) => {
+        setSelectedTransactionType(type);
+        setTransactionTypeError('');
+        setAmountError('');
     };
 
 
@@ -361,23 +386,23 @@ useEffect(() => {
             // Set the minimum amount based on the selected transaction purpose
             switch (transactionPurpose) {
                 case 'HOA Maintenance Fees':
-                    minAmount = selectedBillingStatementData?.bll_hoamaint_fee || 0;
+                    minAmount = parseFloat(selectedBillingStatementData?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0) ;
                     break;
                 case 'Water Bill':
-                    minAmount = selectedBillingStatementData?.bll_water_charges || 0;
+                    minAmount = parseFloat(selectedBillingStatementData?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0) ;
                     break;
                 case 'Garbage':
-                    minAmount = selectedBillingStatementData?.bll_garb_charges || 0;
+                    minAmount = parseFloat(selectedBillingStatementData?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0) ;
                     break;
                 case 'All':
-                    minAmount = selectedBillingStatementData?.bll_total_amt_due || 0;
+                    minAmount = parseFloat(parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0)).toFixed(2) ;
                     break;
                 default:
                     minAmount = 0;
             }
     
             // Check if the entered amount is lower than the minimum amount for advance payment
-            if (inputAmount < minAmount) {
+            if ((inputAmount < minAmount) && selectedTransactionType != "Partial Payment") {
                 setAmountError(`Amount must be at least PHP ${Number(minAmount).toFixed(2)}`);
             } else {
                 setAmountError(''); // Clear the error if amount is valid
@@ -411,18 +436,17 @@ useEffect(() => {
 
 
         // Handle the general validation for Partial Payments
-        if (inputAmount < minAmount) {
+        if ((inputAmount < minAmount) && selectedTransactionType != "Partial Payment" && inputAmount > 0) {
             setAmountError(`Amount must be at least PHP ${minAmount.toFixed(2)}`);
         } else if (inputAmount > maxAmount) {
             setAmountError(`Amount cannot exceed PHP ${Number(maxAmount).toFixed(2)}`);
-        } else {
+        }
+        else {
             setAmountError('');
         }
     
         setAmountToPay(inputAmount);
     };
-    
-    
             
     const handleBillingStatementChange = (e) => {
         const selectedValue = e.target.value;
@@ -436,22 +460,7 @@ useEffect(() => {
         const purpose = e.target.value;
         setTransactionPurpose(purpose);
         setTransactionPurposeError('');
-        const selectedBillingStatementData = billingStatements.find(statement => statement.bll_id === billingStatementId)
-
-       
-        let prefilledAmount = 0;
-        if (purpose === 'HOA Maintenance Fees') {
-            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0)) ;
-        } else if (purpose === 'Water Bill') {
-            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0)) ;
-        } else if (purpose === 'Garbage') {
-            prefilledAmount =  (parseFloat(selectedBillingStatementData?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0));
-        } else if (purpose === 'All') {
-            prefilledAmount = (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0))
-        }
         
-        setAmountToPay(prefilledAmount);
-        setMinimumAmount(prefilledAmount);
     };
 
     const handlePaymentMethod = (method) => {
@@ -741,7 +750,7 @@ useEffect(() => {
                                                      if( transactionPurpose === 'Garbage') return (parseFloat(selectedBillingStatement?.bll_garb_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.garbage || 0))
                                                     else if( transactionPurpose === 'Water Bill') return (parseFloat(selectedBillingStatement?.bll_water_charges || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.water || 0))
                                                     else if( transactionPurpose === 'HOA Maintenance Fees') return (parseFloat(selectedBillingStatement?.bll_hoamaint_fee || 0) - parseFloat(selectedBillingStatement?.bll_paid_breakdown?.hoa || 0))
-                                                    else return (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0))
+                                                    else return (parseFloat(selectedBillingStatementData?.bll_total_amt_due || 0) - parseFloat(selectedBillingStatement?.bll_total_paid || 0)).toFixed(2)
                                                 })()
                                                 }</span></p>
                                         </div>
