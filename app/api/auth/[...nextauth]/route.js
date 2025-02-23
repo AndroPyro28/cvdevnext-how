@@ -2,19 +2,7 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 // Helper function to determine the API URL based on the environment
-function getApiUrl() {
-  let apiUrl = 'http://localhost:8080';
 
-  if (process.env.NEXT_PUBLIC_URL_DEF === 'test') {
-    apiUrl = process.env.NEXT_PUBLIC_URL_TEST;
-  } else if (process.env.NEXT_PUBLIC_URL_DEF === 'dev') {
-    apiUrl = process.env.NEXT_PUBLIC_URL_DEV;
-  } else if (process.env.NEXT_PUBLIC_URL_DEF === 'production') {
-    apiUrl = process.env.NEXT_PUBLIC_URL_PROD;
-  }
-
-  return apiUrl;
-}
 
 export const authOptions = {
   providers: [
@@ -25,9 +13,8 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const apiUrl = getApiUrl();
 
-        const response = await fetch(`${apiUrl}/api/auth/login`, {
+        const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/auth/login`, {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' },

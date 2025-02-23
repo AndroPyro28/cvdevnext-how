@@ -30,7 +30,7 @@ export default function Dashboard({ params }) {
       setLoading(true);
       try {
         const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/header/${userId}`,
+          `${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`,
           {}
         );
 
@@ -63,18 +63,10 @@ export default function Dashboard({ params }) {
   useEffect(() => {
     if (status === "authenticated") {
       // Determine the API URL based on the environment
-      let apiUrl = "http://localhost:8080"; // Default to localhost if no environment variable is set
-
-      if (process.env.NEXT_PUBLIC_URL_DEF === "test") {
-        apiUrl = process.env.NEXT_PUBLIC_URL_TEST;
-      } else if (process.env.NEXT_PUBLIC_URL_DEF === "dev") {
-        apiUrl = process.env.NEXT_PUBLIC_URL_DEV;
-      } else if (process.env.NEXT_PUBLIC_URL_DEF === "production") {
-        apiUrl = process.env.NEXT_PUBLIC_URL_PROD;
-      }
+        // Default to localhost if no environment variable is set
 
       // Fetch data from the server
-      fetch(`${apiUrl}/api/datetime`)
+      fetch(`${process.env.NEXT_BACKEND_URL}/api/datetime`)
         .then((response) => response.json())
         .then((data) => {
           const serverDateTime = DateTime.fromISO(data.datetime); // Parse the datetime from the server

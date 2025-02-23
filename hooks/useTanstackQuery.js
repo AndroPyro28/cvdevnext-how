@@ -4,18 +4,12 @@ import qs from "query-string";
 
 const controller = new AbortController();
 
-let apiUrl = "http://localhost:8080"; // Default to localhost if no environment variable is set
+  // Default to localhost if no environment variable is set
 
-if (process.env.NEXT_PUBLIC_URL_DEF === "test") {
-  apiUrl = process.env.NEXT_PUBLIC_URL_TEST;
-} else if (process.env.NEXT_PUBLIC_URL_DEF === "dev") {
-  apiUrl = process.env.NEXT_PUBLIC_URL_DEV;
-} else if (process.env.NEXT_PUBLIC_URL_DEF === "production") {
-  apiUrl = process.env.NEXT_PUBLIC_URL_PROD;
-}
+
 
 export const apiClient = axios.create({
-  baseURL: `${apiUrl}/api`,
+  baseURL: `${process.env.NEXT_BACKEND_URL}/api`,
   headers: {
     "Content-type": "application/json",
     "Access-Control-Allow-Origin": "*",

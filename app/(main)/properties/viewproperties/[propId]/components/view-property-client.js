@@ -29,7 +29,7 @@ export default function ViewProperty({userId}) {
         const fetchPropertyDetails = async () => {
             setLoading(true)
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/properties-by-propId/${propId}`);
+                const response = await axios.get(`${process.env.NEXT_BACKEND_URL}/api/home-owner/properties-by-propId/${propId}`);
                 
                 if (response.status != 200) {
                     throw new Error("Failed to fetch property details");
@@ -59,7 +59,7 @@ export default function ViewProperty({userId}) {
         const fetchUserData = async (userId) => {
             try {
                 const authToken = localStorage.getItem("authToken");
-                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/header/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                     },

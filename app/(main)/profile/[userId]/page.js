@@ -48,7 +48,7 @@ export default function ProfileClient({ params }) {
         if (userId) {
             const fetchUserData = async () => {
                 try {
-                    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEV}/api/admin/profile/${userId}`);
+                    const response = await axios.get(`${process.env.NEXT_BACKEND_URL}/api/admin/profile/${userId}`);
                     if (response.status != 200) throw new Error('Failed to fetch user data');
 
                     const data = response.data;
@@ -108,13 +108,13 @@ export default function ProfileClient({ params }) {
         };
 
         try {
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/profile/${userId}`, updatedData);
+            const response = await axios.put(`${process.env.NEXT_BACKEND_URL}/api/home-owner/profile/${userId}`, updatedData);
             const responseData =  response.data;
           
             // Re-fetch updated data
             const fetchUserData = async () => {
                 try {
-                    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEV}/api/home-owner/profile/${userId}`);
+                    const response = await axios.get(`${process.env.NEXT_BACKEND_URL}/api/home-owner/profile/${userId}`);
                     if (response.status != 200) throw new Error('Failed to fetch updated user data');
                     
                     const data = response.data
