@@ -89,7 +89,7 @@ export default function Dashboard({ params }) {
     const fetchDashboardData = async () => {
       try {
         const authToken = localStorage.getItem("authToken");
-        const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/dashboard/${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/dashboard/${userId}`, {
           headers: { Authorization: `Bearer ${authToken}` },
         });
 

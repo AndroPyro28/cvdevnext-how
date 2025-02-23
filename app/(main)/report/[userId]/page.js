@@ -32,7 +32,7 @@ export default function ReportPage({ params }) {
         const fetchUserData = async () => {
             const authToken = localStorage.getItem('authToken');
             try {
-                const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/header/${userId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${authToken}`,
@@ -71,7 +71,7 @@ export default function ReportPage({ params }) {
         formData.append('file', file);
 
         try {
-            const response = await axios.post(`${process.env.NEXT_BACKEND_URL}/api/home-owner/upload-image`, formData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/upload-image`, formData);
 
             if (response.status != 200) {
                 throw new Error('Failed to upload image');
@@ -98,7 +98,7 @@ export default function ReportPage({ params }) {
                 uploadedImageURL = await uploadImage(proofOfDeposit);
             }
 
-            const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/report?userId=${userId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/report?userId=${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

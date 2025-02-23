@@ -128,7 +128,7 @@ export default function CreateTransaction() {
 
     try {
         // Submit the transaction
-        const transactionResponse = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/transactions/${propId}`, {
+        const transactionResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/transactions/${propId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -171,7 +171,7 @@ const handleWalletUpdate = async (walletData) => {
     try {
         console.log('Sending wallet update request with data:', walletData); // Debugging
 
-        const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/wallet`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/wallet`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -204,7 +204,7 @@ useEffect(() => {
         console.log('Fetching property with propId:', propId); // Debugging
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/properties-by-propId/${propId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/properties-by-propId/${propId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ useEffect(() => {
     const fetchUserData = async (userId) => {
         try {
             const authToken = localStorage.getItem("authToken");
-            const response = await fetch(`${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/header/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
@@ -246,7 +246,7 @@ useEffect(() => {
 
             if (!response.ok) throw new Error("Failed to fetch user data");
 
-            const walletResponse = await fetch(`${process.env.NEXT_BACKEND_URL}/api/user/${userId}/wallet`);
+            const walletResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/${userId}/wallet`);
 
             if (!response.ok) throw new Error("Failed to fetch user data");
             if (!walletResponse.ok) throw new Error("Failed to fetch wallet data");

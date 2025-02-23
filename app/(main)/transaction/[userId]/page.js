@@ -33,7 +33,7 @@ export default function TransactionsPage({ params }) {
         const fetchUserData = async () => {
             try {
                 
-                const response = await axios.get(`${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`)
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/header/${userId}`)
                 setUserData(response.data);
                 setUserFirstName(response.data.userFirstName || '');
                 setUserLastName(response.data.userLastName || '');
@@ -47,7 +47,7 @@ export default function TransactionsPage({ params }) {
         const fetchTransactions = async () => {
             try {
 
-                const response = await axios.get(`${process.env.NEXT_BACKEND_URL}/api/home-owner/transaction/${userId}`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/transaction/${userId}`);
 
                 console.log(response)
                 console.log('Data received in frontend:', response); // Debug log

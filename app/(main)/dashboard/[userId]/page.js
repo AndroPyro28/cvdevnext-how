@@ -29,8 +29,10 @@ export default function Dashboard({ params }) {
     const fetchPropertiesAndUserData = async () => {
       setLoading(true);
       try {
+
+        console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
         const userResponse = await axios.get(
-          `${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/header/${userId}`,
           {}
         );
 
@@ -66,7 +68,7 @@ export default function Dashboard({ params }) {
         // Default to localhost if no environment variable is set
 
       // Fetch data from the server
-      fetch(`${process.env.NEXT_BACKEND_URL}/api/datetime`)
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/datetime`)
         .then((response) => response.json())
         .then((data) => {
           const serverDateTime = DateTime.fromISO(data.datetime); // Parse the datetime from the server

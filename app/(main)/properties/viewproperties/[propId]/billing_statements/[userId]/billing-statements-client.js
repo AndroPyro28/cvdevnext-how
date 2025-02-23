@@ -24,7 +24,7 @@ export default function Statements({ params, userId }) {
     const fetchStatements = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_BACKEND_URL}/api/home-owner/statements/${propId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/statements/${propId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function Statements({ params, userId }) {
       try {
         const authToken = localStorage.getItem("authToken");
         const response = await fetch(
-          `${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/header/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${authToken}`,

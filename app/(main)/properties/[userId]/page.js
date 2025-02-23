@@ -25,11 +25,11 @@ export default function Properties({ params }) {
       try {
         const [propertiesResponse, userResponse] = await Promise.all([
           await axios.get(
-            `${process.env.NEXT_BACKEND_URL}/api/home-owner/properties/${userId}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/properties/${userId}`,
             {}
           ),
           await axios.get(
-            `${process.env.NEXT_BACKEND_URL}/api/home-owner/header/${userId}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/header/${userId}`,
             {}
           ),
         ]);

@@ -9,7 +9,7 @@ const controller = new AbortController();
 
 
 export const apiClient = axios.create({
-  baseURL: `${process.env.NEXT_BACKEND_URL}/api`,
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`,
   headers: {
     "Content-type": "application/json",
     "Access-Control-Allow-Origin": "*",
