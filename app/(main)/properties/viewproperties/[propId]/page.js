@@ -1,6 +1,7 @@
 import React from 'react'
 import ViewProperty from './components/view-property-client'
 import { getSession } from '@/actions/getCurrentSession'
+import { redirect } from 'next/navigation'
 
 const ViewPropertyPage = async () => {
 
