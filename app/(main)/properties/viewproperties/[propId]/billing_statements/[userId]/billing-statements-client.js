@@ -250,7 +250,7 @@ export default function Statements({ params, userId }) {
                   <img
                     src={selectedStatement.bll_water_cons_img}
                     alt="Proof of Deposit"
-                    className={styles.proof_image}
+                    className={ `${styles.proof_image} max-h-[250px]`}
                   />
                 )}
               </div>
