@@ -6,7 +6,7 @@ import Sidebar from '../../../components/sidebar.js';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 export default function ReportPage({ params }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);

@@ -138,11 +138,12 @@ export default function Dashboard({ params }) {
     return <p>Loading...</p>;
   }
 
-  const { initialAmounts, billsHaveBeenPaid } = data?.billSummary;
-  const totalDues = initialAmounts.total - billsHaveBeenPaid.total;
-  const waterDues = initialAmounts.water - billsHaveBeenPaid.water;
-  const garbageDues = initialAmounts.garbage - billsHaveBeenPaid.garbage;
-  const hoaDues = initialAmounts.hoa - billsHaveBeenPaid.hoa;
+  const initialAmounts = data?.billSummary?.initialAmounts ?? {}
+  const billsHaveBeenPaid = data?.billSummary?.billsHaveBeenPaid ?? {}
+  const totalDues = (initialAmounts?.total || 0) - (billsHaveBeenPaid?.total || 0);
+  const waterDues = (initialAmounts?.water || 0) - (billsHaveBeenPaid?.water || 0);
+  const garbageDues = (initialAmounts?.garbage || 0) - (billsHaveBeenPaid?.garbage || 0);
+  const hoaDues = (initialAmounts?.hoa || 0) -( billsHaveBeenPaid?.hoa || 0);
 
   // The user should be authenticated at this point
   // You can proceed to render the dashboard UI
