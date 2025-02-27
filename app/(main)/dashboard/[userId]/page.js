@@ -243,7 +243,7 @@ export default function Dashboard({ params }) {
         <div className="flex flex-col space-y-2">
           {transactionData?.length > 0 &&
             transactionData.map((transaction) => (
-              <div className="flex justify-evenly items-center px-5 py-2 rounded-[25px] bg-white">
+              <div className="flex justify-evenly items-center px-5 py-2 rounded-[25px] bg-white" key={transaction?.trn_id}>
                 <span className="font-semibold flex-1">{transaction?.trn_id}</span>
                 <span className={cn(
                   "flex-1 flex justify-start",
