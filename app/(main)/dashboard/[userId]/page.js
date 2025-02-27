@@ -148,7 +148,7 @@ export default function Dashboard({ params }) {
   // The user should be authenticated at this point
   // You can proceed to render the dashboard UI
   return (
-    <div className="ml-[200px] mt-20 px-10 justify-center flex flex-col items-center">
+    <div className="ml-[0px] md:ml-[200px] mt-20 px-10 justify-center flex flex-col items-center">
       <header className={styles.properties_header}>
         <h2>Dashboard</h2>
         {userData && (
@@ -192,7 +192,7 @@ export default function Dashboard({ params }) {
           </span>
         </div>
 
-        <div className={dashboard.main_content_row_div}>
+        <div className={` flex flex-col md:flex-row space-y-2`}>
           <div className={dashboard.main_list_div}>
             <h6 className={dashboard.list_head}>
               {" "}

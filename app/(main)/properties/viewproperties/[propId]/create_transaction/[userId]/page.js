@@ -19,7 +19,7 @@ const Modal = ({ isOpen, onClose, summary, onSubmit }) => {
             <div className={styles.modalContentStyled}>
                 <span className={styles.close} onClick={onClose}>&times;</span>
                 <h2 className={styles.modalTitle}>Review Transaction Summary</h2>
-                <div className={styles.modalSummaryStyled}>
+                <div className={`${styles.modalSummaryStyled}` + ``}>
                     {/* <div className={styles.summaryRowStyled}><strong>Billing Statement:</strong> {summary.billingStatement}</div> */}
                     <div className={styles.summaryRowStyled}><strong>Transaction Type:</strong> {summary.trn_type}</div>
                     <div className={styles.summaryRowStyled}><strong>Transaction Purpose:</strong> {summary.trn_purp}</div>

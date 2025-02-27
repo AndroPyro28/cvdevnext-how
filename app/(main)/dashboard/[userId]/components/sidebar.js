@@ -21,9 +21,6 @@ export default function DashboardSidebar() {
                 <div className={compstyle.sidebar_logo_div}>
                     <Image className={compstyle.sidebar_logo} src={sblogo} alt="CV Connect Logo" height={50} />
                 </div>
-
-
-
                 <div className={compstyle.sidebar_nav_div}>
                     <nav className={compstyle.navlist_div}>
                         <ul className={compstyle.navlist}>

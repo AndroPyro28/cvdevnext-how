@@ -1,5 +1,6 @@
 import { getSession } from "@/actions/getCurrentSession";
 import { redirect } from "next/navigation";
+import Sidebar from "../components/sidebar";
 
 export default async function UserLayout({
   children,
