@@ -7,6 +7,7 @@ import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { signOut, useSession } from 'next-auth/react';
+import { uploadPhoto } from '@/lib/utils.js';
 
 export default function ReportPage({ params }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -95,7 +96,8 @@ export default function ReportPage({ params }) {
             // If an image is selected, upload it first and get the URL
             let uploadedImageURL = imageURL;
             if (proofOfDeposit) {
-                uploadedImageURL = await uploadImage(proofOfDeposit);
+                const {url} = await uploadPhoto(proofOfDeposit);
+                uploadedImageURL = url
             }
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/home-owner/report?userId=${userId}`, {
