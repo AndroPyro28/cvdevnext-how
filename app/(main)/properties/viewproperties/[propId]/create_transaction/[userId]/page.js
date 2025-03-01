@@ -177,7 +177,6 @@ export default function CreateTransaction() {
 };
 
 
-
 const handleWalletUpdate = async (walletData) => {
     try {
         console.log('Sending wallet update request with data:', walletData); // Debugging
