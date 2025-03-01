@@ -65,7 +65,7 @@ const Modal = ({ isOpen, onClose, summary, onSubmit }) => {
 };
 
 export default function CreateTransaction() {
-    const { prop_id:propId, userId } = useParams();
+    const { propId, userId } = useParams();
     const router = useRouter();
     const [billingStatements, setBillingStatements] = useState([]);
     const [billingStatementId, setBillingStatementId] = useState("");
