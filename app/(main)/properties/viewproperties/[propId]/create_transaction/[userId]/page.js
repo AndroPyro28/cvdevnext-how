@@ -167,7 +167,7 @@ export default function CreateTransaction() {
         }
 
         alert(`Transaction submitted successfully with ID: ${transactionResponseData.transactionId}`);
-        router.push(`/transactions`);
+        router.push(`/transaction/${userId}`);
     } catch (error) {
         console.error("Error during submission:", error);
         alert("An error occurred. Please try again.");
