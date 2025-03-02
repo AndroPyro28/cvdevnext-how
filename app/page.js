@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 export default function Login() {
     const router = useRouter();
     const [username, setUsername] = useState('');
@@ -27,9 +27,23 @@ export default function Login() {
 
     useEffect(() => {
         if(status === "authenticated" && data?.user.usr_id ) {
-            router.push(`/dashboard/${data.user.usr_id}`);
+            router.push(`/dashboard/`);
         }
     }, [status])
+
+
+    useEffect(() => {
+        if (status === "authenticated" && data?.user.usr_id ) {
+    
+            if(data?.user?.role === "homeowner") {
+              router.push(`/dashboard/${data.user.usr_id}`);
+            }
+            else {
+              signOut()
+            }
+        }
+        
+      }, [status]);
 
     console.log(useSession())
     const validateInputs = () => {
