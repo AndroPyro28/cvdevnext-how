@@ -80,8 +80,8 @@ export default function Login() {
 
     return (
         <div className={styles.login_container}>
-            <div className={`${styles.left_side} before:bg-[url(/loginvillage.svg)]`}>
-                <Image src="/logo3.png" alt="Logo" width={80} height={80} className={styles.logo_image} />
+            <div className={`${styles.left_side} before:bg-[url(https://res.cloudinary.com/dbotdcaxi/image/upload/v1744444637/loginvillage_ru0t0u.svg)]`}>
+                <Image src="https://res.cloudinary.com/dbotdcaxi/image/upload/v1744444742/Logo3_k3uee3.png" alt="Logo" width={80} height={80} className={styles.logo_image} />
                 <div className={styles.inner_left_side}>
                     <h1>Welcome to CV CONNECT!</h1>
                     <p>Homeowner Portal v1.0.0</p>
