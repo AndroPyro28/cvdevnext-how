@@ -180,7 +180,7 @@ export default function Dashboard({ params }) {
 
       <div className={dashboard.main_content_container}>
         <div className={dashboard.main_hero_container}>
-          <h3 className={dashboard.hero_head}>
+          <h3 className={dashboard.list_head}>
             <span className="font-bold text-3xl">
               Welcome {session.user.username}!
             </span>

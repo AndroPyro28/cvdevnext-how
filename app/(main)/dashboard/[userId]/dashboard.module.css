@@ -15,7 +15,9 @@
     margin: 0 0 10px 0;
     padding: 0;
     width: 100%;
-    background-image: url('/backgrounds/hero_background.jpg');
+    /* background-image: url('/backgrounds/hero_background.jpg'); */
+    background: #EEAECA;
+background: radial-gradient(circle,rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

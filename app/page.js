@@ -80,7 +80,7 @@ export default function Login() {
 
     return (
         <div className={styles.login_container}>
-            <div className={styles.left_side}>
+            <div className={`${styles.left_side} before:bg-[url(/loginvillage.svg)]`}>
                 <Image src="/logo3.png" alt="Logo" width={80} height={80} className={styles.logo_image} />
                 <div className={styles.inner_left_side}>
                     <h1>Welcome to CV CONNECT!</h1>

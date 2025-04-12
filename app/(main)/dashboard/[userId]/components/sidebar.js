@@ -14,6 +14,7 @@ import tranIcon from "@/public/svg/transactions_icon.svg";
 import votiIcon from "@/public/svg/voting_icon.svg";
 import annoIcon from "@/public/svg/announcements_icon.svg";
 import repoIcon from "@/public/svg/reports_icon.svg";
+import { LayoutDashboard } from "lucide-react";
 
 export default function DashboardSidebar() {
     return (
@@ -28,9 +29,10 @@ export default function DashboardSidebar() {
                                 <Link href="/dashboard">
                                     <div className={`${compstyle.navlist_item} ${compstyle.navlist_item_active}`}>
                                         <div className={compstyle.navlist_item_ico}>
-                                            <Image src={dashIcon} alt="Dashboard Icon" height={25} />
+                                            {/* <Image src={dashIcon} alt="Dashboard Icon" height={25} /> */}
+                                            <LayoutDashboard />
                                         </div>
-                                        <p>Dashboard</p>
+                                        <p>Dashboard s</p>
                                     </div>
                                 </Link>
                             </li>
